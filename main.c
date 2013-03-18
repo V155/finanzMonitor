@@ -26,6 +26,7 @@ int main(void) {
     //eingabe();
     //ausgabe();
     readIn();
+    ausgabe();
 
     return EXIT_SUCCESS;
 }
@@ -66,7 +67,7 @@ int ausgabe(void) {
 
     int i = 0;
 
-    for(i=0; i < 1; i++){
+    for(i=0; i < aktIndex; i++){
 
 	printf ("*------------------------------------------*\n");
 	printf ("* PostenNr:...........................%4d *\n", i);
@@ -91,9 +92,31 @@ int readIn(void) {
     savefile = fopen ("save.csv", "r");
     if (savefile == NULL) perror ("Error opening file");
     else {
-	while ( fgets (puffer , ZEILENLAENGE , savefile) != NULL )
-	    puts (puffer);
+	int i = 1;
+	char *ptr;
+	while ( fgets (puffer , ZEILENLAENGE , savefile) != NULL ){
+	    //puts (puffer);
+	    
+	    ptr = strtok(puffer, ",");
+	    if (ptr != NULL)		
+		strcpy(eintraege[aktIndex].kategorie , ptr);
+	    ptr = strtok(NULL, ",");
+	    if (ptr != NULL)
+		strcpy(eintraege[aktIndex].posten, ptr);
+	    ptr = strtok(NULL, ",");
+	    if (ptr != NULL)
+		eintraege[aktIndex].preis = atoi(ptr);
+	    ptr = strtok(NULL, ",");
+	    if (ptr != NULL)
+		eintraege[aktIndex].datum = atoi(ptr);
+
+	    aktIndex ++;
+	}
+
+
     }
+
+    
     fclose (savefile);
 
 
