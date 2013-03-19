@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define ZEILENLAENGE 46
+#define ROWLENGTH 46
 
-struct eintrag{
-    char kategorie[8];
-    char posten[16];
-    int preis;
-    int datum;
+struct entry{ //the struct that represents one entry
+    char category[8]; //a char to store the category
+    char desc[16]; //a char to store the description
+    int price; //an int to store the price in cents
+    int date; //an int to store the date without the dots in format ddMMYYYY
 };
 
-struct eintrag eintraege[100];
-int aktIndex = 0;
-char buf[16];
+struct entry entries[100]; //an array with length 100 to store the entries forat least a month
+int actIndex = 0; //the actual index while accessing the entries array
+char buf[16]; //an char array that stores the userinput
 
 int main(void) {
 
@@ -26,55 +26,55 @@ int main(void) {
     //eingabe();
     //ausgabe();
     readIn();
-    ausgabe();
+    output();
 
     return EXIT_SUCCESS;
 }
-int eingabe(void){
+int input(void){
 
-    char kategorie[8];
-    char posten[16];
-    int preis;
-    int datum;
+    char category[8];
+    char desc[16];
+    int price;
+    int date;
 
-    printf("Bitte Kategorie eingeben : ");
+    printf("Please enter Category : ");// just the whole input sequence here
     fgets(buf, 7, stdin);
-    sscanf(buf, "%s", &kategorie);
+    sscanf(buf, "%s", &category);
     memset(buf,'+',16);
-    printf("Bitte Posten eingeben : ");
+    printf("Plese enter description : ");
     fgets(buf, 15, stdin);
-    sscanf(buf, "%s", &posten);
+    sscanf(buf, "%s", &desc);
     memset(buf, '\0',16);
-    printf("Bitte Preis eingeben : ");
+    printf("Please enter price : ");
     fgets(buf, 8, stdin);
-    sscanf(buf, "%d", &preis);
-    memset(buf, '\0',strlen(buf));
-    printf("Bitte Datum eingeben : ");
+    sscanf(buf, "%d", &price);
+//    memset(buf, '\0',strlen(buf));
+    printf("Please enter date : ");
     fgets(buf, 9, stdin);
-    sscanf(buf, "%d", &datum);
-    memset(buf, '\0',strlen(buf));
+    sscanf(buf, "%d", &date);
+//    memset(buf, '\0',strlen(buf));
 
-    strcpy(eintraege[aktIndex].kategorie , kategorie);
-    strcpy(eintraege[aktIndex].posten, posten);
-    eintraege[aktIndex].preis = preis;
-    eintraege[aktIndex].datum = datum;
+    strcpy(entries[actIndex].category , category);//copy the read values into the array of structs
+    strcpy(entries[actIndex].desc, desc);
+    entries[actIndex].price = price;
+    entries[actIndex].date = date;
 
     return EXIT_SUCCESS;
 
 }
 
-int ausgabe(void) {
+int output(void) {
 
-    int i = 0;
+    int i = 0; //just an int to iterate over the array of structs
 
-    for(i=0; i < aktIndex; i++){
+    for(i=0; i < actIndex; i++){ //an iteration over all the entries and output of them
 
 	printf ("*------------------------------------------*\n");
-	printf ("* PostenNr:...........................%4d *\n", i);
-	printf ("* Kategorie:......................%8s *\n", eintraege[i].kategorie);
-	printf ("* PostenB:................%16s *\n", eintraege[i].posten);
-	printf ("* Preis:..........................%8d *\n", eintraege[i].preis);
-	printf ("* Datum:..........................%8d *\n", eintraege[i].datum);
+	printf ("* Nr:.................................%4d *\n", i);
+	printf ("* Category:.......................%8s *\n", entries[i].category);
+	printf ("* Description:............%16s *\n", entries[i].desc);
+	printf ("* Price:..........................%8d *\n", entries[i].price);
+	printf ("* Date:...........................%8d *\n", entries[i].date);
 	printf ("*------------------------------------------*\n");
 
     }
@@ -85,40 +85,38 @@ int ausgabe(void) {
 
 int readIn(void) {
 
-    FILE *savefile;
-    char puffer[ZEILENLAENGE];
-    char name[] = {"save.csv"};
+    FILE *savefile;	//pointer to the savefile
+    char puffer[ROWLENGTH]; //char array that contains the read data
+    char name[] = {"save.csv"}; //the name of the savefile
 
-    savefile = fopen ("save.csv", "r");
-    if (savefile == NULL) perror ("Error opening file");
+    savefile = fopen ("save.csv", "r"); //savefile is opened read-only
+    if (savefile == NULL) perror ("Error opening file"); //checks if file can be opened
     else {
-	int i = 1;
-	char *ptr;
-	while ( fgets (puffer , ZEILENLAENGE , savefile) != NULL ){
-	    //puts (puffer);
-	    
-	    ptr = strtok(puffer, ",");
-	    if (ptr != NULL)		
-		strcpy(eintraege[aktIndex].kategorie , ptr);
-	    ptr = strtok(NULL, ",");
-	    if (ptr != NULL)
-		strcpy(eintraege[aktIndex].posten, ptr);
-	    ptr = strtok(NULL, ",");
-	    if (ptr != NULL)
-		eintraege[aktIndex].preis = atoi(ptr);
-	    ptr = strtok(NULL, ",");
-	    if (ptr != NULL)
-		eintraege[aktIndex].datum = atoi(ptr);
+	char *ptr; //pointer to store the fields of the csv in
+	while ( fgets (puffer , ROWLENGTH , savefile) != NULL ){ //read all lines of file
 
-	    aktIndex ++;
+		//expected file format: category,shortdescription,priceInCent,date
+	    ptr = strtok(puffer, ","); //read in the first field
+	    if (ptr != NULL)// check if there was a field
+		strcpy(entries[actIndex].category , ptr);//write the content of the read field into the struct
+	    ptr = strtok(NULL, ",");
+	    if (ptr != NULL)
+		strcpy(entries[actIndex].desc, ptr);
+	    ptr = strtok(NULL, ",");
+	    if (ptr != NULL)
+		entries[actIndex].price = atoi(ptr);
+	    ptr = strtok(NULL, ",");
+	    if (ptr != NULL)
+		entries[actIndex].date = atoi(ptr);
+
+	    actIndex ++;
 	}
 
 
     }
 
-    
-    fclose (savefile);
 
+    fclose (savefile);
 
     return EXIT_SUCCESS;
 }
