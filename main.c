@@ -16,17 +16,18 @@ char buf[16]; //an char array that stores the userinput
 
 int main(void) {
 
-
-
-    //strcpy(eintraege[0].kategorie, "Kat0001");
-    //strcpy(eintraege[0].posten, "Posten1");
-    //eintraege[0].preis = 599;
-    //eintraege[0].datum = 11032013;
-
-    //eingabe();
-    //ausgabe();
     readIn();
     smallOutput();
+
+
+    strcpy(entries[actIndex].category, "Kat0001");
+    strcpy(entries[actIndex].desc, "Posten1");
+    entries[actIndex].price = 599;
+    entries[actIndex].date = 11032013;
+	actIndex++;
+    //eingabe();
+    //ausgabe();
+	writeOut();
 
     return EXIT_SUCCESS;
 }
@@ -59,7 +60,9 @@ int input(void){
     entries[actIndex].price = price;
     entries[actIndex].date = date;
 
-    return EXIT_SUCCESS;
+	actIndex++;
+
+    return 0;
 
 }
 
@@ -94,7 +97,7 @@ int output(void) {
 
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 
 }
 
@@ -105,33 +108,62 @@ int readIn(void) {
     char name[] = {"save.csv"}; //the name of the savefile
 
     savefile = fopen ("save.csv", "r"); //savefile is opened read-only
-    if (savefile == NULL) perror ("Error opening file"); //checks if file can be opened
-    else {
-	char *ptr; //pointer to store the fields of the csv in
-	while ( fgets (puffer , ROWLENGTH , savefile) != NULL ){ //read all lines of file
-
-		//expected file format: category,shortdescription,priceInCent,date
-	    ptr = strtok(puffer, ","); //read in the first field
-	    if (ptr != NULL)// check if there was a field
-		strcpy(entries[actIndex].category , ptr);//write the content of the read field into the struct
-	    ptr = strtok(NULL, ",");
-	    if (ptr != NULL)
-		strcpy(entries[actIndex].desc, ptr);
-	    ptr = strtok(NULL, ",");
-	    if (ptr != NULL)
-		entries[actIndex].price = atoi(ptr);
-	    ptr = strtok(NULL, ",");
-	    if (ptr != NULL)
-		entries[actIndex].date = atoi(ptr);
-
-	    actIndex ++;
+    if (savefile == NULL){
+	   	perror ("Error opening file"); //checks if file can be opened
+		return 1;
 	}
+    else {
+		char *ptr; //pointer to store the fields of the csv in
+		while ( fgets (puffer , ROWLENGTH , savefile) != NULL ){ //read all lines of file
 
+			//expected file format: category,shortdescription,priceInCent,date
+			ptr = strtok(puffer, ","); //read in the first field
+			if (ptr != NULL)// check if there was a field
+			strcpy(entries[actIndex].category , ptr);//write the content of the read field into the struct
+			ptr = strtok(NULL, ",");
+			if (ptr != NULL)
+			strcpy(entries[actIndex].desc, ptr);
+			ptr = strtok(NULL, ",");
+			if (ptr != NULL)
+			entries[actIndex].price = atoi(ptr);
+			ptr = strtok(NULL, ",");
+			if (ptr != NULL)
+			entries[actIndex].date = atoi(ptr);
 
+			actIndex ++;
+		}
     }
-
 
     fclose (savefile);
 
-    return EXIT_SUCCESS;
+    return 0;
 }
+
+int writeOut(void){
+	
+	int i=0;
+	FILE *savefile;	//pointer to the savefile
+    char puffer[ROWLENGTH]; //char array that contains the read data
+    char name[] = {"save.csv"}; //the name of the savefile
+
+	savefile=fopen(name,"w");
+	if(savefile == NULL){
+	   perror ("Error opening file for writing");
+	   return 1;
+	}
+	else{
+		for(i=0; i < actIndex; i++){
+			
+			sprintf(puffer,"%s,%s,%d,%d\n",entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
+			fputs(puffer,savefile);
+		}
+	}
+
+	fclose(savefile);
+
+	return 0;
+	
+}
+
+
+
