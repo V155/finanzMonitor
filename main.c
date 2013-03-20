@@ -26,7 +26,7 @@ int main(void) {
     //eingabe();
     //ausgabe();
     readIn();
-    output();
+    smallOutput();
 
     return EXIT_SUCCESS;
 }
@@ -61,6 +61,21 @@ int input(void){
 
     return EXIT_SUCCESS;
 
+}
+
+int smallOutput(void) {
+
+	int i = 0; //just an int to iterate over the array of structs
+
+	printf("*------+----------+------------------+----------+----------*\n");
+	printf("* Nr   | Category | Description      | Price    | Date     *\n");
+	printf("*------+----------+------------------+----------+----------*\n");
+
+	for(i=0; i< actIndex; i++){
+		printf("* %4d | %8s | %16s | %8d | %8d *\n", i, entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
+	}
+
+	printf("*------+----------+------------------+----------+----------*\n");
 }
 
 int output(void) {
