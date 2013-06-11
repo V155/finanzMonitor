@@ -13,6 +13,7 @@ struct entry{ //the struct that represents one entry
 struct entry entries[100]; //an array with length 100 to store the entries forat least a month
 int actIndex = 0; //the actual index while accessing the entries array
 char buf[16]; //an char array that stores the userinput
+int sum1 = 0; //int containing the sum of the entries with category==KAT1
 
 int main(void) {
 
@@ -20,13 +21,14 @@ int main(void) {
     smallOutput();
 
 
-    strcpy(entries[actIndex].category, "Kat0001");
+    strcpy(entries[actIndex].category, "KAT1");
     strcpy(entries[actIndex].desc, "Posten1");
     entries[actIndex].price = 599;
     entries[actIndex].date = 11032013;
 	actIndex++;
     //eingabe();
     //ausgabe();
+	calcSums();
 	writeOut();
 
     return EXIT_SUCCESS;
@@ -166,5 +168,19 @@ int writeOut(void){
 	
 }
 
+int calcSums(void){ //calculates the Sum of expenses for each category
+
+	//int sum1, sum2, sum3 = 0;
+	int i = 0;
+	int k = -42;
+	for(i=0; i < actIndex; i++){
+	printf("Starting sum calculation %d\n",i);
+		k=strcmp(entries[actIndex].category, "KAT1"); //equals KAT1
+
+			sum1 = sum1 + entries[actIndex].price;
+			printf("SUM1: %d\n",k);
+		
+	}
+}
 
 
