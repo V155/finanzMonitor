@@ -14,6 +14,9 @@ struct entry entries[100]; //an array with length 100 to store the entries forat
 int actIndex = 0; //the actual index while accessing the entries array
 char buf[16]; //an char array that stores the userinput
 int sum1 = 0; //int containing the sum of the entries with category==KAT1
+int sums[16];		//stores the sums of the categories
+char knCats[16][8];	//stores the names of the categories
+int numCat = 0;		//stores the number of found categories
 
 int main(void) {
 
@@ -21,11 +24,13 @@ int main(void) {
     smallOutput();
 
 
-    strcpy(entries[actIndex].category, "KAT1");
+    /*
+	strcpy(entries[actIndex].category, "KAT1");
     strcpy(entries[actIndex].desc, "Posten1");
     entries[actIndex].price = 599;
     entries[actIndex].date = 11032013;
 	actIndex++;
+	*/
     //eingabe();
     //ausgabe();
 	calcSums();
@@ -170,17 +175,60 @@ int writeOut(void){
 
 int calcSums(void){ //calculates the Sum of expenses for each category
 
-	//int sum1, sum2, sum3 = 0;
-	int i = 0;
-	int k = -42;
-	for(i=0; i < actIndex; i++){
-	printf("Starting sum calculation %d\n",i);
-		k=strcmp(entries[actIndex].category, "KAT1"); //equals KAT1
-
-			sum1 = sum1 + entries[actIndex].price;
-			printf("SUM1: %d\n",k);
 		
+	int eq = 0;			//needed for the known category check
+	int i = 0;
+	for(i=0; i < actIndex; i++){
+//	printf("Starting sum calculation %d\n",i);
+//	printf("kat: %s\n", entries[i].category); 
+//		if(0==strcmp(entries[i].category, "KAT1")){ //equals KAT1
+			
+//			k = k + entries[i].price;
+//			printf("SUM1: %d\n",k);
+		//}
+	
+//	}
+//	k=strcmp("KAT1","KAT1");
+//	printf("Equal:  %d\n", k);
+//	printf("SUM: %d\n", k);
+	
+		eq = checkKnown(entries[i].category);		//returns index of category in knCats array if known. else -1
+
+		if(eq == -1){
+			strcpy(knCats[numCat], entries[i].category);		//append the category to the known categories array
+			sums[numCat] = entries[i].price;
+			numCat++;
+		}
+		else{
+			sums[eq] = sums[eq] + entries[i].price;		//increase the sum by the price of the actual entry
+		}
+	}//for loop
+	
+	for (i = 0 ; i < numCat; i++){
+		printf("Sum of %s is : %d\n", knCats[i], sums[i]);
 	}
+
+	return 1;
 }
 
+int checkKnown(char cat[8]){
+	
+	int e = 0;	//stores 0 if equal and 1 if not
+	int k = 0;	//var for the second loop
+	int i = 0;
+
+	for (i = 0; i < numCat; i++){
+		e=0;
+		for (k = 0; k < 8; k++){
+			if (knCats[i][k] != cat[k]){
+				e = 1;
+				break;
+			}
+		}
+		if (e == 0){
+			return i;
+		}
+	}
+	return -1;
+}
 
