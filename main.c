@@ -203,10 +203,14 @@ int calcSums(void){ //calculates the Sum of expenses for each category
 			sums[eq] = sums[eq] + entries[i].price;		//increase the sum by the price of the actual entry
 		}
 	}//for loop
+
+	int mainSum = 0;
 	
 	for (i = 0 ; i < numCat; i++){
 		printf("Sum of %s is : %d\n", knCats[i], sums[i]);
+		mainSum += sums[i];
 	}
+	printf("Overall Sum: %d\n", mainSum);
 
 	return 1;
 }
