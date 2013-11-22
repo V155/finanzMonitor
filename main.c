@@ -18,6 +18,12 @@ int sums[16];		//stores the sums of the categories
 char knCats[16][8];	//stores the names of the categories
 int numCat = 0;		//stores the number of found categories
 
+int readIn(void);
+void smallOutput(void);
+int calcSums(void);
+int writeOut(void);
+int checkKnown(char cat[8]);
+
 int main(void) {
 
     readIn();
@@ -73,7 +79,7 @@ int input(void){
 
 }
 
-int smallOutput(void) {
+void smallOutput(void) {
 
 	int i = 0; //just an int to iterate over the array of structs
 
@@ -114,7 +120,7 @@ int readIn(void) {
     char puffer[ROWLENGTH]; //char array that contains the read data
     char name[] = {"save.csv"}; //the name of the savefile
 
-    savefile = fopen ("save.csv", "r"); //savefile is opened read-only
+    savefile = fopen (name, "r"); //savefile is opened read-only
     if (savefile == NULL){
 	   	perror ("Error opening file"); //checks if file can be opened
 		return 1;
@@ -150,7 +156,7 @@ int writeOut(void){
 	
 	int i=0;
 	FILE *savefile;	//pointer to the savefile
-    char puffer[ROWLENGTH]; //char array that contains the read data
+//    char puffer[ROWLENGTH]; //char array that contains the read data
     char name[] = {"save.csv"}; //the name of the savefile
 
 	savefile=fopen(name,"w");
