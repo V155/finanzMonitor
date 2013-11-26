@@ -3,8 +3,10 @@
 #include <string.h>
 #define ROWLENGTH 46
 
-struct entry{ //the struct that represents one entry
-    char category[8]; //a char to store the category
+ //the struct that represents one entry
+struct entry
+{   
+	char category[8]; //a char to store the category
     char desc[16]; //a char to store the description
     int price; //an int to store the price in cents
     int date; //an int to store the date without the dots in format ddMMYYYY
@@ -24,28 +26,18 @@ int calcSums(void);
 int writeOut(void);
 int checkKnown(char cat[8]);
 
-int main(void) {
-
+int main(void)
+{
     readIn();
     smallOutput();
-
-
-    /*
-	strcpy(entries[actIndex].category, "KAT1");
-    strcpy(entries[actIndex].desc, "Posten1");
-    entries[actIndex].price = 599;
-    entries[actIndex].date = 11032013;
-	actIndex++;
-	*/
-    //eingabe();
-    //ausgabe();
 	calcSums();
 	writeOut();
 
     return EXIT_SUCCESS;
 }
-int input(void){
 
+int input(void)
+{
     char category[8];
     char desc[16];
     int price;
@@ -79,8 +71,8 @@ int input(void){
 
 }
 
-void smallOutput(void) {
-
+void smallOutput(void)
+{
 	int i = 0; //just an int to iterate over the array of structs
 
 	printf("*------+----------+------------------+----------+----------*\n");
@@ -94,8 +86,8 @@ void smallOutput(void) {
 	printf("*------+----------+------------------+----------+----------*\n");
 }
 
-int output(void) {
-
+int output(void)
+{
     int i = 0; //just an int to iterate over the array of structs
 
     for(i=0; i < actIndex; i++){ //an iteration over all the entries and output of them
@@ -114,8 +106,8 @@ int output(void) {
 
 }
 
-int readIn(void) {
-
+int readIn(void)
+{
     FILE *savefile;	//pointer to the savefile
     char puffer[ROWLENGTH]; //char array that contains the read data
     char name[] = {"save.csv"}; //the name of the savefile
@@ -152,8 +144,8 @@ int readIn(void) {
     return 0;
 }
 
-int writeOut(void){
-	
+int writeOut(void)
+{
 	int i=0;
 	FILE *savefile;	//pointer to the savefile
 //    char puffer[ROWLENGTH]; //char array that contains the read data
@@ -179,25 +171,12 @@ int writeOut(void){
 	
 }
 
-int calcSums(void){ //calculates the Sum of expenses for each category
-
-		
+//calculates the Sum of expenses for each category
+int calcSums(void)
+{ 
 	int eq = 0;			//needed for the known category check
 	int i = 0;
 	for(i=0; i < actIndex; i++){
-//	printf("Starting sum calculation %d\n",i);
-//	printf("kat: %s\n", entries[i].category); 
-//		if(0==strcmp(entries[i].category, "KAT1")){ //equals KAT1
-			
-//			k = k + entries[i].price;
-//			printf("SUM1: %d\n",k);
-		//}
-	
-//	}
-//	k=strcmp("KAT1","KAT1");
-//	printf("Equal:  %d\n", k);
-//	printf("SUM: %d\n", k);
-	
 		eq = checkKnown(entries[i].category);		//returns index of category in knCats array if known. else -1
 
 		if(eq == -1){
@@ -241,4 +220,3 @@ int checkKnown(char cat[8]){
 	}
 	return -1;
 }
-
