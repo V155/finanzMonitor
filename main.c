@@ -35,9 +35,12 @@ int numCat = 0;
 int readIn(void);
 void smallOutput(void);
 void ncursesOutput(void);
+void drawLine(int length);
 int calcSums(void);
 int writeOut(void);
 int checkKnown(char cat[8]);
+void drawSpecialCharacter(char specialCharacter);
+void drawTableSeperatorLine(char specialCharacter);
 
 int main(void)
 {
@@ -127,17 +130,47 @@ void ncursesOutput(void){
 	//start ncurses mode
 	initscr();
 	//print the text
-	int i = 0; //just an int to iterate over the array of structs
+	//just an int to iterate over the array of structs
+	int i = 0; 
 	
-	printw("*------+----------+------------------+----------+----------*\n");
-	printw("* Nr   | Category | Description      | Price    | Date     *\n");
-	printw("*------+----------+------------------+----------+----------*\n");
+	drawTableSeperatorLine('w');
+	
+	printw("\n");
+	addch(ACS_VLINE);
+	printw(" Nr   ");
+	addch(ACS_VLINE);
+	printw(" Category ");
+	addch(ACS_VLINE);
+	printw(" Description      ");
+	addch(ACS_VLINE);
+	printw(" Price    ");
+	addch(ACS_VLINE);
+	printw(" Date     ");
+	addch(ACS_VLINE);
+	printw("\n");
+	
+	drawTableSeperatorLine('n');
+	printw("\n");
+	
 	
 	for(i=0; i< actIndex; i++){
-		printw("* %4d | %8s | %16s | %8d | %8d *\n", i, entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
+		
+		addch(ACS_VLINE);
+		printw(" %4d ", i);
+		addch(ACS_VLINE);
+		printw(" %8s ", entries[i].category);
+		addch(ACS_VLINE);
+		printw(" %16s ", entries[i].desc);
+		addch(ACS_VLINE);
+		printw(" %8d ", entries[i].price);
+		addch(ACS_VLINE);
+		printw(" %8d ", entries[i].date);
+		addch(ACS_VLINE);
+		printw("\n");
 	}
 	
-	printw("*------+----------+------------------+----------+----------*\n");
+	drawTableSeperatorLine('v');
+	printw("\n");
 	
 	//needed for the known category check
 	int eq = 0;
@@ -174,6 +207,63 @@ void ncursesOutput(void){
 	
 }
 
+void drawLine(int length)
+{
+	for(;length >= 0; length--){
+		
+		addch(ACS_HLINE);
+		
+	}
+}
+
+void drawTableSeperatorLine(char specialCharacter)
+{
+	
+	//printw("*------+----------+------------------+----------+----------*\n");
+	//drawLine(57);
+	switch (specialCharacter){
+		
+		case 'v': addch(ACS_LLCORNER); break;
+		case 'w': addch(ACS_ULCORNER); break;
+		case 'n': addch(ACS_LTEE); break;
+		default: break;
+		
+	}
+	
+	drawLine(5);
+	drawSpecialCharacter(specialCharacter);
+	drawLine(9);
+	drawSpecialCharacter(specialCharacter);
+	drawLine(17);
+	drawSpecialCharacter(specialCharacter);
+	drawLine(9);
+	drawSpecialCharacter(specialCharacter);
+	drawLine(9);
+	
+	switch (specialCharacter){
+		
+		case 'v': addch(ACS_LRCORNER); break;
+		case 'w': addch(ACS_URCORNER); break;
+		case 'n': addch(ACS_RTEE); break;
+		default: break;
+		
+	}
+}
+
+void drawSpecialCharacter(char specialCharacter)
+{
+	switch (specialCharacter){
+		
+		case 't': addch(ACS_LTEE); break;
+		case 'u': addch(ACS_RTEE); break;
+		case 'v': addch(ACS_BTEE); break;
+		case 'w': addch(ACS_TTEE); break;
+		case 'n': addch(ACS_PLUS); break;
+		default: break;
+	}
+}
+
+//reads the data from the save.csv
 int readIn(void)
 {
 	//pointer to the savefile
