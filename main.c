@@ -7,11 +7,16 @@
 //the struct that represents one entry
 struct entry
 {
-	char category[8]; //a char to store the category
-	char desc[16]; //a char to store the description
-	int price; //an int to store the price in cents
-	int date; //an int to store the date without the dots in format ddMMYYYY
+	//a char to store the category
+	char category[8];
+	//a char to store the description
+	char desc[16];
+	//an int to store the price in cents
+	int price;
+	//an int to store the date without the dots in format ddMMYYYY
+	int date;
 };
+
 //an array with length 100 to store the entries for at least a month
 struct entry entries[100];
 //the actual index while accessing the entries array
@@ -51,8 +56,9 @@ int input(void)
 	char desc[16];
 	int price;
 	int date;
-	 
-	printf("Please enter Category : ");// just the whole input sequence here
+	
+	// just the whole input sequence here
+	printf("Please enter Category : ");
 	fgets(buf, 7, stdin);
 	sscanf(buf, "%s", &category);
 	memset(buf,'+',16);
@@ -68,8 +74,9 @@ int input(void)
 	fgets(buf, 9, stdin);
 	sscanf(buf, "%d", &date);
 	//memset(buf, '\0',strlen(buf));
-	 
-	strcpy(entries[actIndex].category , category);//copy the read values into the array of structs
+	
+	//copy the read values into the array of structs
+	strcpy(entries[actIndex].category , category);
 	strcpy(entries[actIndex].desc, desc);
 	entries[actIndex].price = price;
 	entries[actIndex].date = date;
@@ -82,7 +89,8 @@ int input(void)
 
 void smallOutput(void)
 {
-	int i = 0; //just an int to iterate over the array of structs
+	//just an int to iterate over the array of structs
+	int i = 0;
 	
 	printf("*------+----------+------------------+----------+----------*\n");
 	printf("* Nr   | Category | Description      | Price    | Date     *\n");
@@ -97,8 +105,10 @@ void smallOutput(void)
 
 int output(void)
 {
-	int i = 0; //just an int to iterate over the array of structs
-	for(i=0; i < actIndex; i++) //an iteration over all the entries and output of them
+	//just an int to iterate over the array of structs
+	int i = 0;
+	//an iteration over all the entries and output of them
+	for(i=0; i < actIndex; i++)
 	{
 		printf ("*------------------------------------------*\n");
 		printf ("* Nr:.................................%4d *\n", i);
@@ -107,7 +117,6 @@ int output(void)
 		printf ("* Price:..........................%8d *\n", entries[i].price);
 		printf ("* Date:...........................%8d *\n", entries[i].date);
 		printf ("*------------------------------------------*\n");
-	
 	}
 	
 	return 0;
@@ -134,17 +143,19 @@ void ncursesOutput(void){
 	int eq = 0;
 	i = 0;
 	for(i=0; i < actIndex; i++){
-		eq = checkKnown(entries[i].category);		//returns index of category in knCats array if known. else -1
-		
+		//returns index of category in knCats array if known. else -1
+		eq = checkKnown(entries[i].category);
 		if(eq == -1){
-			strcpy(knCats[numCat], entries[i].category);		//append the category to the known categories array
+			//append the category to the known categories array
+			strcpy(knCats[numCat], entries[i].category);
 			sums[numCat] = entries[i].price;
 			numCat++;
 		}
 		else{
-			sums[eq] = sums[eq] + entries[i].price;		//increase the sum by the price of the actual entry
+			//increase the sum by the price of the actual entry
+			sums[eq] = sums[eq] + entries[i].price;
 		}
-	}//for loop
+	}
 	
 	int mainSum = 0;
 	
@@ -165,22 +176,31 @@ void ncursesOutput(void){
 
 int readIn(void)
 {
-	FILE *savefile;	//pointer to the savefile
-	char puffer[ROWLENGTH]; //char array that contains the read data
-	char name[] = {"save.csv"}; //the name of the savefile
+	//pointer to the savefile
+	FILE *savefile;
+	//char array that contains the read data
+	char puffer[ROWLENGTH];
+	//the name of the savefile
+	char name[] = {"save.csv"};
 	
-	savefile = fopen (name, "r"); //savefile is opened read-only
+	//savefile is opened read-only
+	savefile = fopen (name, "r");
 	if (savefile == NULL){
-	   	perror ("Error opening file"); //checks if file can be opened
+		//checks if file can be opened
+		perror ("Error opening file");
 		return 1;
 	}
 	else {
-		char *ptr; //pointer to store the fields of the csv in
-		while ( fgets (puffer , ROWLENGTH , savefile) != NULL ){ //read all lines of file
+		//pointer to store the fields of the csv in
+		char *ptr;
+		//read all lines of file
+		while ( fgets (puffer , ROWLENGTH , savefile) != NULL ){
 			
 			//expected file format: category,shortdescription,priceInCent,date
-			ptr = strtok(puffer, ","); //read in the first field
-			if (ptr != NULL)// check if there was a field
+			//read in the first field
+			ptr = strtok(puffer, ",");
+			// check if there was a field
+			if (ptr != NULL)
 			strcpy(entries[actIndex].category , ptr);//write the content of the read field into the struct
 			ptr = strtok(NULL, ",");
 			if (ptr != NULL)
@@ -204,9 +224,11 @@ int readIn(void)
 int writeOut(void)
 {
 	int i=0;
-	FILE *savefile;	//pointer to the savefile
+	//pointer to the savefile
+	FILE *savefile;
 //    char puffer[ROWLENGTH]; //char array that contains the read data
-	char name[] = {"save.csv"}; //the name of the savefile
+	//the name of the savefile
+	char name[] = {"save.csv"};
 	
 	savefile=fopen(name,"w");
 	if(savefile == NULL){
@@ -230,21 +252,25 @@ int writeOut(void)
 
 //calculates the Sum of expenses for each category
 int calcSums(void)
-{ 
-	int eq = 0;			//needed for the known category check
+{
+	//needed for the known category check
+	int eq = 0;
 	int i = 0;
 	for(i=0; i < actIndex; i++){
-		eq = checkKnown(entries[i].category);		//returns index of category in knCats array if known. else -1
+		//returns index of category in knCats array if known. else -1
+		eq = checkKnown(entries[i].category);
 		
 		if(eq == -1){
-			strcpy(knCats[numCat], entries[i].category);		//append the category to the known categories array
+			//append the category to the known categories array
+			strcpy(knCats[numCat], entries[i].category);
 			sums[numCat] = entries[i].price;
 			numCat++;
 		}
 		else{
-			sums[eq] = sums[eq] + entries[i].price;		//increase the sum by the price of the actual entry
+			//increase the sum by the price of the actual entry
+			sums[eq] = sums[eq] + entries[i].price;
 		}
-	}//for loop
+	}
 
 	int mainSum = 0;
 	
@@ -259,8 +285,10 @@ int calcSums(void)
 
 int checkKnown(char cat[8]){
 	
-	int e = 0;	//stores 0 if equal and 1 if not
-	int k = 0;	//var for the second loop
+	//stores 0 if equal and 1 if not
+	int e = 0;
+	//var for the second loop
+	int k = 0;
 	int i = 0;
 	
 	for (i = 0; i < numCat; i++){
