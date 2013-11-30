@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ncurses.h>
 #define ROWLENGTH 46
 
  //the struct that represents one entry
@@ -22,6 +23,7 @@ int numCat = 0;		//stores the number of found categories
 
 int readIn(void);
 void smallOutput(void);
+void ncursesOutput(void);
 int calcSums(void);
 int writeOut(void);
 int checkKnown(char cat[8]);
@@ -29,8 +31,9 @@ int checkKnown(char cat[8]);
 int main(void)
 {
     readIn();
-    smallOutput();
-	calcSums();
+//    smallOutput();
+	ncursesOutput();
+//	calcSums();
 	writeOut();
 
     return EXIT_SUCCESS;
@@ -103,6 +106,55 @@ int output(void)
     }
 
     return 0;
+
+}
+
+void ncursesOutput(void){
+
+	//start ncurses mode
+	initscr();
+	//print the text
+	int i = 0; //just an int to iterate over the array of structs
+
+	printw("*------+----------+------------------+----------+----------*\n");
+	printw("* Nr   | Category | Description      | Price    | Date     *\n");
+	printw("*------+----------+------------------+----------+----------*\n");
+
+	for(i=0; i< actIndex; i++){
+		printw("* %4d | %8s | %16s | %8d | %8d *\n", i, entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
+	}
+
+	printw("*------+----------+------------------+----------+----------*\n");
+
+	int eq = 0;			//needed for the known category check
+	i = 0;
+	for(i=0; i < actIndex; i++){
+		eq = checkKnown(entries[i].category);		//returns index of category in knCats array if known. else -1
+
+		if(eq == -1){
+			strcpy(knCats[numCat], entries[i].category);		//append the category to the known categories array
+			sums[numCat] = entries[i].price;
+			numCat++;
+		}
+		else{
+			sums[eq] = sums[eq] + entries[i].price;		//increase the sum by the price of the actual entry
+		}
+	}//for loop
+
+	int mainSum = 0;
+	
+	for (i = 0 ; i < numCat; i++){
+		printw("Sum of %s is : %d\n", knCats[i], sums[i]);
+		mainSum += sums[i];
+	}
+	printw("Overall Sum: %d\n", mainSum);
+
+	//refresh screen
+	refresh();
+	//wait for user input
+	getch();
+	//end ncurses mode
+	endwin();
 
 }
 
