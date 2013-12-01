@@ -172,6 +172,8 @@ void ncursesOutput(void){
 	drawTableSeperatorLine('v');
 	printw("\n");
 	
+	calcSums();
+	/*
 	//needed for the known category check
 	int eq = 0;
 	i = 0;
@@ -190,13 +192,14 @@ void ncursesOutput(void){
 		}
 	}
 	
-	int mainSum = 0;
+	int sum1 = 0;*/
 	
 	for (i = 0 ; i < numCat; i++){
 		printw("Sum of %s is : %d\n", knCats[i], sums[i]);
-		mainSum += sums[i];
+		sum1 += sums[i];
 	}
-	printw("Overall Sum: %d\n", mainSum);
+	printw("Overall Sum: %d\n", sum1);
+	
 	
 	//refresh screen
 	refresh();
@@ -361,14 +364,13 @@ int calcSums(void)
 			sums[eq] = sums[eq] + entries[i].price;
 		}
 	}
-
-	int mainSum = 0;
 	
+
 	for (i = 0 ; i < numCat; i++){
 		printf("Sum of %s is : %d\n", knCats[i], sums[i]);
-		mainSum += sums[i];
+		sum1 += sums[i];
 	}
-	printf("Overall Sum: %d\n", mainSum);
+	printf("Overall Sum: %d\n", sum1);
 	
 	return 1;
 }

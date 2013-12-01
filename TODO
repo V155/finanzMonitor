@@ -1,2 +1,2 @@
-rewrite calcSums() so it can be used in console and also in ncurses
+done: rewrite calcSums() so it can be used in console and also in ncurses
 write kind of input dialog to add entries
