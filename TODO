@@ -1,2 +1,3 @@
 done: rewrite calcSums() so it can be used in console and also in ncurses
 write kind of input dialog to add entries
+find a solution to keep the example save.csv in gitrepo but dont track changes upstream so that it can be filled with private data

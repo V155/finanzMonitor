@@ -173,26 +173,6 @@ void ncursesOutput(void){
 	printw("\n");
 	
 	calcSums();
-	/*
-	//needed for the known category check
-	int eq = 0;
-	i = 0;
-	for(i=0; i < actIndex; i++){
-		//returns index of category in knCats array if known. else -1
-		eq = checkKnown(entries[i].category);
-		if(eq == -1){
-			//append the category to the known categories array
-			strcpy(knCats[numCat], entries[i].category);
-			sums[numCat] = entries[i].price;
-			numCat++;
-		}
-		else{
-			//increase the sum by the price of the actual entry
-			sums[eq] = sums[eq] + entries[i].price;
-		}
-	}
-	
-	int sum1 = 0;*/
 	
 	for (i = 0 ; i < numCat; i++){
 		printw("Sum of %s is : %d\n", knCats[i], sums[i]);
@@ -210,6 +190,7 @@ void ncursesOutput(void){
 	
 }
 
+//This function draws a horizontal line
 void drawLine(int length)
 {
 	for(;length >= 0; length--){
@@ -219,11 +200,12 @@ void drawLine(int length)
 	}
 }
 
+//this function prints a seperator line. @param specialCharacter is a char according to ncurses.h 
+//that declares what specialCharacter should be used to display the first char of the line.
+//The other needed specialCharacters are chosen accordingly.
 void drawTableSeperatorLine(char specialCharacter)
 {
 	
-	//printw("*------+----------+------------------+----------+----------*\n");
-	//drawLine(57);
 	switch (specialCharacter){
 		
 		case 'v': addch(ACS_LLCORNER); break;
@@ -365,12 +347,12 @@ int calcSums(void)
 		}
 	}
 	
-
-	for (i = 0 ; i < numCat; i++){
-		printf("Sum of %s is : %d\n", knCats[i], sums[i]);
-		sum1 += sums[i];
-	}
-	printf("Overall Sum: %d\n", sum1);
+	
+	//for (i = 0 ; i < numCat; i++){
+	//	printf("Sum of %s is : %d\n", knCats[i], sums[i]);
+	//	sum1 += sums[i];
+	//}
+	//printf("Overall Sum: %d\n", sum1);
 	
 	return 1;
 }
