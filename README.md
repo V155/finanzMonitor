@@ -14,3 +14,6 @@ Third field is the price in cents.
 Fourth field is the date in YYYYMMDD
 
 You can just invent as many categories as you want. The program will calculate the sum for every category.
+
+Here is the output with the example save.csv:
+	![Example Output](https://paste.xinu.at/iTdnH/)
