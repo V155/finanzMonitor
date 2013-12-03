@@ -21,3 +21,5 @@
 
 #ignore save.csv because of privacy
 *.csv
+*.orig
+*.xoj
