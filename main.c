@@ -41,6 +41,7 @@ int writeOut(void);
 int checkKnown(char cat[8]);
 void drawSpecialCharacter(char specialCharacter);
 void drawTableSeperatorLine(char specialCharacter);
+void nAddEntry();
 
 int main(void)
 {
@@ -248,6 +249,10 @@ void drawSpecialCharacter(char specialCharacter)
 	}
 }
 
+void nAddEntry()
+{
+
+}
 //reads the data from the save.csv
 int readIn(void)
 {
