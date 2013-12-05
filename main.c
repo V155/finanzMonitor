@@ -251,8 +251,10 @@ void drawSpecialCharacter(char specialCharacter)
 
 void nAddEntry()
 {
-
+	
 }
+
+
 //reads the data from the save.csv
 int readIn(void)
 {
