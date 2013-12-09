@@ -276,8 +276,8 @@ void nAddEntry()
 	
 	mvwgetnstr(my_win, 3, 22, category, 7);
 	mvwgetnstr(my_win, 4, 22, desc, 15);
-	mvwscanw(my_win, 5, 22, "%d",price);
-	mvwscanw(my_win, 6, 22, "%d",date);
+	mvwscanw(my_win, 5, 22, "%d", &price);
+	mvwscanw(my_win, 6, 22, "%d", &date);
 	
 	strcpy(entries[0].category, category);
 	strcpy(entries[0].desc, desc);
