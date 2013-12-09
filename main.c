@@ -49,8 +49,10 @@ int main(void)
 	readIn();
 	//smallOutput();
 	ncursesOutput();
+	nAddEntry();
+	ncursesOutput();
 	//calcSums();
-	writeOut();
+	//writeOut();
 	 
 	return EXIT_SUCCESS;
 }
@@ -185,7 +187,6 @@ void ncursesOutput(void){
 	
 	//refresh screen
 	refresh();
-	nAddEntry();
 	//wait for user input
 	getch();
 	//end ncurses mode
@@ -253,6 +254,11 @@ void drawSpecialCharacter(char specialCharacter)
 
 void nAddEntry()
 {
+	char category[8];
+	char desc[16];
+	int price = 0;
+	int date = 0;
+	
 	int height = 10;
 	int width = 42;
 	int starty = (LINES - height) / 2;
@@ -267,6 +273,18 @@ void nAddEntry()
 	mvwprintw(my_win, 6, 2, "Date in YYYYMMDD :");
 	wrefresh(my_win);
 	refresh();
+	
+	mvwgetnstr(my_win, 3, 22, category, 7);
+	mvwgetnstr(my_win, 4, 22, desc, 15);
+	mvwscanw(my_win, 5, 22, "%d",price);
+	mvwscanw(my_win, 6, 22, "%d",date);
+	
+	strcpy(entries[0].category, category);
+	strcpy(entries[0].desc, desc);
+	entries[0].price = price;
+	entries[0].date = date;
+	
+	
 }
 
 WINDOW *create_newwin(int height, int width ,int starty, int startx)
