@@ -43,17 +43,37 @@ void drawSpecialCharacter(char specialCharacter);
 void drawTableSeperatorLine(char specialCharacter);
 void nAddEntry();
 WINDOW *create_newwin(int height, int width ,int starty, int startx);
+void destroy_win(WINDOW *local_win);
+
 
 int main(void)
 {
 	readIn();
 	//smallOutput();
-	ncursesOutput();
-	nAddEntry();
-	ncursesOutput();
+	initscr();
+	int toggle = 1;
+	while(toggle)
+	{
+		ncursesOutput();
+		char input = getch();
+		
+		switch(input)
+		{
+			case 'q': 
+				toggle = 0; break;
+			
+			case 'a':
+				nAddEntry(); break;
+			
+			default: toggle = 0; break;
+		}
+	}
+	//nAddEntry();
+	//ncursesOutput();
 	//calcSums();
 	//writeOut();
-	 
+	
+	endwin();
 	return EXIT_SUCCESS;
 }
 
@@ -132,7 +152,8 @@ int output(void)
 void ncursesOutput(void){
 
 	//start ncurses mode
-	initscr();
+	//initscr();
+	move(0,0);
 	//print the text
 	//just an int to iterate over the array of structs
 	int i = 0; 
@@ -187,10 +208,8 @@ void ncursesOutput(void){
 	
 	//refresh screen
 	refresh();
-	//wait for user input
-	getch();
 	//end ncurses mode
-	endwin();
+	//endwin();
 	
 }
 
@@ -284,7 +303,8 @@ void nAddEntry()
 	entries[0].price = price;
 	entries[0].date = date;
 	
-	
+	destroy_win(my_win);
+	refresh();
 }
 
 WINDOW *create_newwin(int height, int width ,int starty, int startx)
@@ -300,6 +320,12 @@ WINDOW *create_newwin(int height, int width ,int starty, int startx)
 	return local_win;
 }
 
+void destroy_win(WINDOW *local_win)
+{
+	wborder(local_win, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+	wrefresh(local_win);
+	delwin(local_win);
+}
 
 //reads the data from the save.csv
 int readIn(void)
