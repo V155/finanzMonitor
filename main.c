@@ -42,6 +42,7 @@ int checkKnown(char cat[8]);
 void drawSpecialCharacter(char specialCharacter);
 void drawTableSeperatorLine(char specialCharacter);
 void nAddEntry();
+WINDOW *create_newwin(int height, int width ,int starty, int startx);
 
 int main(void)
 {
@@ -184,6 +185,7 @@ void ncursesOutput(void){
 	
 	//refresh screen
 	refresh();
+	nAddEntry();
 	//wait for user input
 	getch();
 	//end ncurses mode
@@ -251,7 +253,33 @@ void drawSpecialCharacter(char specialCharacter)
 
 void nAddEntry()
 {
+	int height = 10;
+	int width = 42;
+	int starty = (LINES - height) / 2;
+	int startx = (COLS - width) / 2;
+	WINDOW *my_win = create_newwin(height, width, starty, startx);
+	attron(A_BOLD);
+	mvwprintw(my_win, 1, 2, "Adding new Entry");
+	attroff(A_BOLD);
+	mvwprintw(my_win, 3, 2, "Category         :");
+	mvwprintw(my_win, 4, 2, "Description      :");
+	mvwprintw(my_win, 5, 2, "Price in ct      :");
+	mvwprintw(my_win, 6, 2, "Date in YYYYMMDD :");
+	wrefresh(my_win);
+	refresh();
+}
+
+WINDOW *create_newwin(int height, int width ,int starty, int startx)
+{
+	WINDOW *local_win;
 	
+	local_win = newwin(height, width, starty, startx);
+	// creates border decoration with default line-draw-characters
+	box(local_win, 0, 0);
+	//show that box	
+	wrefresh(local_win);
+	
+	return local_win;
 }
 
 
