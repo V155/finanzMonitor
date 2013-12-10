@@ -72,7 +72,7 @@ int main(void)
 	//nAddEntry();
 	//ncursesOutput();
 	//calcSums();
-	writeOut();
+	//writeOut();
 	
 	endwin();
 	return EXIT_SUCCESS;
@@ -351,26 +351,29 @@ int readIn(void)
 	else {
 		//pointer to store the fields of the csv in
 		char *ptr;
-		//read all lines of file
-		while ( fgets (puffer , ROWLENGTH , savefile) != NULL ){
-			
-			//expected file format: category,shortdescription,priceInCent,date
-			//read in the first field
-			ptr = strtok(puffer, ",");
-			// check if there was a field
-			if (ptr != NULL)
-			strcpy(entries[actIndex].category , ptr);//write the content of the read field into the struct
-			ptr = strtok(NULL, ",");
-			if (ptr != NULL)
-			strcpy(entries[actIndex].desc, ptr);
-			ptr = strtok(NULL, ",");
-			if (ptr != NULL)
-			entries[actIndex].price = atoi(ptr);
-			ptr = strtok(NULL, ",");
-			if (ptr != NULL)
-			entries[actIndex].date = atoi(ptr);
-			
-			actIndex ++;
+		if ( fgets (puffer, ROWLENGTH , savefile) != NULL)
+		{
+			//read all lines of file
+			while ( fgets (puffer , ROWLENGTH , savefile) != NULL )
+			{
+				//expected file format: category,shortdescription,priceInCent,date
+				//read in the first field
+				ptr = strtok(puffer, ",");
+				// check if there was a field
+				if (ptr != NULL)
+					strcpy(entries[actIndex].category , ptr);//write the content of the read field into the struct
+				ptr = strtok(NULL, ",");
+				if (ptr != NULL)
+					strcpy(entries[actIndex].desc, ptr);
+				ptr = strtok(NULL, ",");
+				if (ptr != NULL)
+					entries[actIndex].price = atoi(ptr);
+				ptr = strtok(NULL, ",");
+				if (ptr != NULL)
+					entries[actIndex].date = atoi(ptr);
+				
+				actIndex ++;
+			}
 		}
 	}
 	
