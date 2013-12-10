@@ -17,10 +17,22 @@ struct entry
 	int date;
 };
 
+struct fixcost
+{
+	//a char to store the description
+	char desc[16];
+	//an int to store the price in cents
+	int price;
+};
+
 //an array with length 100 to store the entries for at least a month
 struct entry entries[100];
+//an array with length 50 to store the fix incomes
+struct fixcost income[50];
+//an array with length 50 to store the fix costs
+struct fixcost bills[50];
 //the actual index while accessing the entries array
-int actIndex = 0;
+int entryIndex = 0;
 //an char array that stores the userinput
 char buf[16];
 //int containing the sum of the entries with category==KAT1
@@ -72,7 +84,8 @@ int main(void)
 	//nAddEntry();
 	//ncursesOutput();
 	//calcSums();
-	writeOut();
+	
+//	writeOut();
 	
 	endwin();
 	return EXIT_SUCCESS;
@@ -104,12 +117,12 @@ int input(void)
 	//memset(buf, '\0',strlen(buf));
 	
 	//copy the read values into the array of structs
-	strcpy(entries[actIndex].category , category);
-	strcpy(entries[actIndex].desc, desc);
-	entries[actIndex].price = price;
-	entries[actIndex].date = date;
+	strcpy(entries[entryIndex].category , category);
+	strcpy(entries[entryIndex].desc, desc);
+	entries[entryIndex].price = price;
+	entries[entryIndex].date = date;
 	
-	actIndex++;
+	entryIndex++;
 	
 	return 0;
 	
@@ -124,7 +137,7 @@ void smallOutput(void)
 	printf("* Nr   | Category | Description      | Price    | Date     *\n");
 	printf("*------+----------+------------------+----------+----------*\n");
 	
-	for(i=0; i< actIndex; i++){
+	for(i=0; i< entryIndex; i++){
 		printf("* %4d | %8s | %16s | %8d | %8d *\n", i, entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
 	}
 	
@@ -136,7 +149,7 @@ int output(void)
 	//just an int to iterate over the array of structs
 	int i = 0;
 	//an iteration over all the entries and output of them
-	for(i=0; i < actIndex; i++)
+	for(i=0; i < entryIndex; i++)
 	{
 		printf ("*------------------------------------------*\n");
 		printf ("* Nr:.................................%4d *\n", i);
@@ -179,7 +192,7 @@ void ncursesOutput(void){
 	printw("\n");
 	
 	
-	for(i=0; i< actIndex; i++){
+	for(i=0; i< entryIndex; i++){
 		
 		addch(ACS_VLINE);
 		printw(" %4d ", i);
@@ -301,11 +314,11 @@ void nAddEntry()
 	mvwscanw(my_win, 5, 22, "%d", &price);
 	mvwscanw(my_win, 6, 22, "%d", &date);
 	
-	strcpy(entries[actIndex].category, category);
-	strcpy(entries[actIndex].desc, desc);
-	entries[actIndex].price = price;
-	entries[actIndex].date = date;
-	actIndex++;
+	strcpy(entries[entryIndex].category, category);
+	strcpy(entries[entryIndex].desc, desc);
+	entries[entryIndex].price = price;
+	entries[entryIndex].date = date;
+	entryIndex++;
 	
 	destroy_win(my_win);
 	refresh();
@@ -336,11 +349,31 @@ int readIn(void)
 {
 	//pointer to the savefile
 	FILE *savefile;
+	FILE *fixedcost;
 	//char array that contains the read data
 	char puffer[ROWLENGTH];
 	//the name of the savefile
 	char name[] = {"save.csv"};
+	char name2[] = {"fixed.csv"};
 	
+	//fixedcost file is opened read-only
+	fixedcost = fopen(name2, "r");
+	if(fixedcost == NULL)
+	{
+		printf("No fixed cost file found skipping");
+	} else
+	{
+		char *ptr;
+		while ( fgets(puffer, ROWLENGTH, fixedcost) != NULL)
+		{
+			ptr = strtok(puffer, ",");
+			
+			if(ptr != NULL);
+				//strcpy(income, ptr
+			
+			
+		}
+	}
 	//savefile is opened read-only
 	savefile = fopen (name, "r");
 	if (savefile == NULL){
@@ -361,18 +394,18 @@ int readIn(void)
 				ptr = strtok(puffer, ",");
 				// check if there was a field
 				if (ptr != NULL)
-					strcpy(entries[actIndex].category , ptr);//write the content of the read field into the struct
+					strcpy(entries[entryIndex].category , ptr);//write the content of the read field into the struct
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					strcpy(entries[actIndex].desc, ptr);
+					strcpy(entries[entryIndex].desc, ptr);
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					entries[actIndex].price = atoi(ptr);
+					entries[entryIndex].price = atoi(ptr);
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					entries[actIndex].date = atoi(ptr);
+					entries[entryIndex].date = atoi(ptr);
 				
-				actIndex ++;
+				entryIndex ++;
 			}
 		}
 	}
@@ -399,7 +432,7 @@ int writeOut(void)
 	else{
 		
 		fprintf(savefile, "Category, Desctiption, Price in cent, Date\n");
-		for(i=0; i < actIndex; i++){
+		for(i=0; i < entryIndex; i++){
 			
 			//sprintf(puffer,"%s,%s,%d,%d\n",entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
 			fprintf(savefile,"%s,%s,%d,%d\n",entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
@@ -425,7 +458,7 @@ int calcSums(void)
 	//needed for the known category check
 	int eq = 0;
 	int i = 0;
-	for(i=0; i < actIndex; i++){
+	for(i=0; i < entryIndex; i++){
 		//returns index of category in knCats array if known. else -1
 		eq = checkKnown(entries[i].category);
 		
