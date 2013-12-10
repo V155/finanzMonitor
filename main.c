@@ -397,6 +397,8 @@ int writeOut(void)
 		return 1;
 	}
 	else{
+		
+		fprintf(savefile, "Category, Desctiption, Price in cent, Date");
 		for(i=0; i < actIndex; i++){
 			
 			//sprintf(puffer,"%s,%s,%d,%d\n",entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
