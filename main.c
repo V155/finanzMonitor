@@ -65,13 +65,14 @@ int main(void)
 			case 'a':
 				nAddEntry(); break;
 			
-			default: toggle = 0; break;
+			default: 
+				toggle = 0; break;
 		}
 	}
 	//nAddEntry();
 	//ncursesOutput();
 	//calcSums();
-	//writeOut();
+	writeOut();
 	
 	endwin();
 	return EXIT_SUCCESS;
@@ -199,6 +200,8 @@ void ncursesOutput(void){
 	
 	calcSums();
 	
+	sum1 = 0;
+	
 	for (i = 0 ; i < numCat; i++){
 		printw("Sum of %s is : %d\n", knCats[i], sums[i]);
 		sum1 += sums[i];
@@ -298,10 +301,11 @@ void nAddEntry()
 	mvwscanw(my_win, 5, 22, "%d", &price);
 	mvwscanw(my_win, 6, 22, "%d", &date);
 	
-	strcpy(entries[0].category, category);
-	strcpy(entries[0].desc, desc);
-	entries[0].price = price;
-	entries[0].date = date;
+	strcpy(entries[actIndex].category, category);
+	strcpy(entries[actIndex].desc, desc);
+	entries[actIndex].price = price;
+	entries[actIndex].date = date;
+	actIndex++;
 	
 	destroy_win(my_win);
 	refresh();
@@ -407,6 +411,12 @@ int writeOut(void)
 //calculates the Sum of expenses for each category
 int calcSums(void)
 {
+	//first clear sums array
+	int z = numCat;
+	for(; z > -1; z-- )
+	{
+		sums[z] = 0;
+	}
 	//needed for the known category check
 	int eq = 0;
 	int i = 0;
@@ -433,7 +443,7 @@ int calcSums(void)
 	//}
 	//printf("Overall Sum: %d\n", sum1);
 	
-	return 1;
+	return 0;
 }
 
 int checkKnown(char cat[8]){
