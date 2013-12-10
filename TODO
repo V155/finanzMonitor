@@ -1,3 +1,6 @@
+Write code that handles monthly income
+Write code that calculates balance based on income and expenses
+Include handling of yearly expenses for that you need to save money monthly
+
 done: rewrite calcSums() so it can be used in console and also in ncurses
-write kind of input dialog to add entries
-find a solution to keep the example save.csv in gitrepo but dont track changes upstream so that it can be filled with private data
+done: write kind of input dialog to add entries
