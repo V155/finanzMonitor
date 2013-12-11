@@ -212,6 +212,40 @@ void ncursesOutput(void){
 		printw("\n");
 	}
 	
+	for(i=0; i< incomesIndex; i++){
+		
+		addch(ACS_VLINE);
+		printw(" %4s ", "x");
+		addch(ACS_VLINE);
+		printw(" %8s ", "x");
+		addch(ACS_VLINE);
+		printw(" %16s ", incomes[i].desc);
+		addch(ACS_VLINE);
+		printw(" %8d ", incomes[i].price);
+		addch(ACS_VLINE);
+		printw(" %8d ", 1);
+		addch(ACS_VLINE);
+		printw("\n");
+	}
+
+	for(i=0; i< billsIndex; i++){
+		
+		addch(ACS_VLINE);
+		printw(" %4s ", "x");
+		addch(ACS_VLINE);
+		printw(" %8s ", "x");
+		addch(ACS_VLINE);
+		printw(" %16s ", bills[i].desc);
+		addch(ACS_VLINE);
+		printw(" %8d ", bills[i].price);
+		addch(ACS_VLINE);
+		printw(" %8d ", 1);
+		addch(ACS_VLINE);
+		printw("\n");
+	}
+
+
+	
 	drawTableSeperatorLine('v');
 	printw("\n");
 	
@@ -374,10 +408,10 @@ int readIn(void)
 		{
 			ptr = strtok(puffer, ",");
 			
-			if(ptr != NULL);
+			if(ptr != NULL)
 				strcpy(incomes[incomesIndex].desc, ptr);
-			ptr = strtok(puffer, ",");
-			if(ptr != NULL);
+			ptr = strtok(NULL, ",");
+			if(ptr != NULL)
 				incomes[incomesIndex].price = atoi(ptr);
 			
 			incomesIndex ++;
@@ -397,10 +431,10 @@ int readIn(void)
 		{
 			ptr = strtok(puffer, ",");
 			
-			if(ptr != NULL);
+			if(ptr != NULL)
 				strcpy(bills[billsIndex].desc, ptr);
-			ptr = strtok(puffer, ",");
-			if(ptr != NULL);
+			ptr = strtok(NULL, ",");
+			if(ptr != NULL)
 				bills[billsIndex].price = atoi(ptr);
 			
 			billsIndex ++;
