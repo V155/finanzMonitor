@@ -258,7 +258,15 @@ void ncursesOutput(void){
 		printw("Sum of %s is : %d\n", knCats[i], sums[i]);
 		sum1 += sums[i];
 	}
-	printw("Overall Sum: %d\n", sum1);
+
+	int y;
+	int x;
+	y = 0;
+	x = 0;
+
+	getyx(stdscr, y, x);
+
+	mvprintw(y-numCat, 30, "Overall Sum: %d\n", sum1);
 
 	int sumBills = 0;
 
@@ -277,8 +285,8 @@ void ncursesOutput(void){
 	int sumDiff = 0;
 
 	sumDiff = sumIncomes - sumBills - sum1;
-
-	printw("Saldo of Month is: %d\n", sumDiff);
+	
+	mvprintw(y-numCat+1, 30, "Saldo of Month is: %d\n", sumDiff);
 	
 	//refresh screen
 	refresh();
