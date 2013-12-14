@@ -17,5 +17,4 @@ You can just invent as many categories as you want. The program will calculate t
 
 Here is the output with the example save.csv:
 
-	![Example
-	Output](https://raw.github.com/V155/finanzMonitor/master/screenshot.png)
+	![Example Output](https://raw.github.com/V155/finanzMonitor/master/screenshot.png)
