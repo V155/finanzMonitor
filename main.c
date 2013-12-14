@@ -195,23 +195,6 @@ void ncursesOutput(void){
 	drawTableSeperatorLine('n');
 	printw("\n");
 	
-	
-	for(i=0; i< entriesIndex; i++){
-		
-		addch(ACS_VLINE);
-		printw(" %4d ", i);
-		addch(ACS_VLINE);
-		printw(" %8s ", entries[i].category);
-		addch(ACS_VLINE);
-		printw(" %16s ", entries[i].desc);
-		addch(ACS_VLINE);
-		printw(" %8d ", entries[i].price);
-		addch(ACS_VLINE);
-		printw(" %8d ", entries[i].date);
-		addch(ACS_VLINE);
-		printw("\n");
-	}
-	
 	for(i=0; i< incomesIndex; i++){
 		
 		addch(ACS_VLINE);
@@ -244,6 +227,24 @@ void ncursesOutput(void){
 		printw("\n");
 	}
 
+	for(i=0; i< entriesIndex; i++){
+		
+		addch(ACS_VLINE);
+		printw(" %4d ", i);
+		addch(ACS_VLINE);
+		printw(" %8s ", entries[i].category);
+		addch(ACS_VLINE);
+		printw(" %16s ", entries[i].desc);
+		addch(ACS_VLINE);
+		printw(" %8d ", entries[i].price);
+		addch(ACS_VLINE);
+		printw(" %8d ", entries[i].date);
+		addch(ACS_VLINE);
+		printw("\n");
+	}
+	
+
+
 
 	
 	drawTableSeperatorLine('v');
@@ -258,7 +259,17 @@ void ncursesOutput(void){
 		sum1 += sums[i];
 	}
 	printw("Overall Sum: %d\n", sum1);
-	
+
+	int sumBills = 0;
+
+	for (i=0; i < billsIndex; i++){
+		sumBills = sumBills + bills[i].price;
+	}
+	int sumDiff = 0;
+
+	sumDiff = incomes[0].price - sumBills - sum1;
+
+	printw("Saldo of Month is: %d\n", sumDiff);
 	
 	//refresh screen
 	refresh();
