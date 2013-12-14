@@ -138,7 +138,7 @@ int input(void)
 	
 }
 
-void smallOutput(void)
+void smallOutput()
 {
 	//just an int to iterate over the array of structs
 	int i = 0;
@@ -146,12 +146,45 @@ void smallOutput(void)
 	printf("*------+----------+------------------+----------+----------*\n");
 	printf("* Nr   | Category | Description      | Price    | Date     *\n");
 	printf("*------+----------+------------------+----------+----------*\n");
+
+	for(i=0; i< incomesIndex; i++){
+		printf("*      |          | %16s | %8d |          *\n", incomes[i].desc, incomes[i].price);
+	}
 	
+	for(i=0; i< billsIndex; i++){
+		printf("*      |          | %16s | %8d |          *\n", bills[i].desc, bills[i].price);
+	}
+
 	for(i=0; i< entriesIndex; i++){
 		printf("* %4d | %8s | %16s | %8d | %8d *\n", i, entries[i].category, entries[i].desc, entries[i].price, entries[i].date);
 	}
 	
 	printf("*------+----------+------------------+----------+----------*\n");
+	
+	for (i = 0 ; i < numCat; i++){
+		printf("Sum of %s is : %d\n", knCats[i], sums[i]);
+	}
+	printf("Overall Sum: %d\n", sum1);
+
+	int sumBills = 0;
+
+	for (i=0; i < billsIndex; i++)
+	{
+		sumBills = sumBills + bills[i].price;
+	}
+
+	int sumIncomes = 0;
+
+	for (i=0; i < incomesIndex; i++)
+	{
+		sumIncomes = sumIncomes + incomes[i].price;
+	}
+
+	int sumDiff; 
+	sumDiff = sumIncomes - sumBills - sum1;
+	
+	printf("Saldo of Month is: %d\n", sumDiff);
+
 }
 
 int output(void)
