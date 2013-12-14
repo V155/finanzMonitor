@@ -262,12 +262,21 @@ void ncursesOutput(void){
 
 	int sumBills = 0;
 
-	for (i=0; i < billsIndex; i++){
+	for (i=0; i < billsIndex; i++)
+	{
 		sumBills = sumBills + bills[i].price;
 	}
+
+	int sumIncomes = 0;
+
+	for (i=0; i < incomesIndex; i++)
+	{
+		sumIncomes = sumIncomes + incomes[i].price;
+	}
+
 	int sumDiff = 0;
 
-	sumDiff = incomes[0].price - sumBills - sum1;
+	sumDiff = sumIncomes - sumBills - sum1;
 
 	printw("Saldo of Month is: %d\n", sumDiff);
 	
