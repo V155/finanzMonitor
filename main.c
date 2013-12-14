@@ -67,6 +67,7 @@ int main(void)
 	readIn();
 	//smallOutput();
 	initscr();
+	int dump = 0;
 	int toggle = 1;
 	while(toggle)
 	{
@@ -81,6 +82,8 @@ int main(void)
 			case 'a':
 				nAddEntry(); break;
 			
+			case 'd':
+				dump = 1; break;
 			default: 
 				toggle = 0; break;
 		}
@@ -92,6 +95,9 @@ int main(void)
 //	writeOut();
 	
 	endwin();
+
+	if(dump) smallOutput();
+
 	return EXIT_SUCCESS;
 }
 
