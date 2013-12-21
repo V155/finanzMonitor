@@ -58,6 +58,8 @@ int checkKnown(char cat[8]);
 void drawSpecialCharacter(char specialCharacter);
 void drawTableSeperatorLine(char specialCharacter);
 void nAddEntry();
+void createEntry(char category[8], char desc[16], int price, int date);
+
 WINDOW *create_newwin(int height, int width ,int starty, int startx);
 void destroy_win(WINDOW *local_win);
 
@@ -92,7 +94,7 @@ int main(void)
 	//ncursesOutput();
 	//calcSums();
 	
-//	writeOut();
+	writeOut();
 	
 	endwin();
 
@@ -418,16 +420,29 @@ void nAddEntry()
 	mvwgetnstr(my_win, 4, 22, desc, 15);
 	mvwscanw(my_win, 5, 22, "%d", &price);
 	mvwscanw(my_win, 6, 22, "%d", &date);
-	
+
+	int c;
+	c = wgetch(my_win);
+	switch(c)
+	{
+		case 10: createEntry(category, desc, price, date); break;
+		default: break;
+	}
+
+	destroy_win(my_win);
+	refresh();
+}
+
+void createEntry(char category[8], char desc[16], int price, int date)
+{
 	strcpy(entries[entriesIndex].category, category);
 	strcpy(entries[entriesIndex].desc, desc);
 	entries[entriesIndex].price = price;
 	entries[entriesIndex].date = date;
 	entriesIndex++;
-	
-	destroy_win(my_win);
-	refresh();
+	writeOut();
 }
+
 
 WINDOW *create_newwin(int height, int width ,int starty, int startx)
 {
