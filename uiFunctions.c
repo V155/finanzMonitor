@@ -132,11 +132,11 @@ int input(int entriesIndex, struct entry* entries)
 	// just the whole input sequence here
 	printf("Please enter Category : ");
 	fgets(buf, 7, stdin);
-	sscanf(buf, "%s", &category);
+	sscanf(buf, "%7s", category);
 	memset(buf,'+',16);
 	printf("Plese enter description : ");
 	fgets(buf, 15, stdin);
-	sscanf(buf, "%s", &desc);
+	sscanf(buf, "%15s", desc);
 	memset(buf, '\0',16);
 	printf("Please enter price : ");
 	fgets(buf, 8, stdin);
@@ -159,7 +159,7 @@ int input(int entriesIndex, struct entry* entries)
 	
 }
 
-void smallOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int numCat, char* knCats, int* sums, int sum1)
+void smallOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int numCat, char** knCats, int* sums, int sum1)
 {
 	//just an int to iterate over the array of structs
 	int i = 0;
@@ -227,7 +227,7 @@ int output(int entriesIndex, struct entry* entries)
 	return 0;
 }
 
-void ncursesOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int sum1, int numCat, char* knCats, int* sums)
+void ncursesOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int sum1, int numCat, char** knCats, int* sums)
 {
 	//start ncurses mode
 	//initscr();
@@ -320,11 +320,8 @@ void ncursesOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, st
 	}
 
 	int y;
-	int x;
-	y = 0;
-	x = 0;
+	y = getcury(stdscr);
 
-	getyx(stdscr, y, x);
 
 	mvprintw(y-numCat, 30, "Overall Sum: %d\n", sum1);
 
