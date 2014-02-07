@@ -184,7 +184,7 @@ int calcSums(int entriesIndex, struct entry* entries, int numCat, int* sums, cha
 	return 0;
 }
 
-int checkKnown(char cat[8], int numCat, char* knCats){
+int checkKnown(char cat[8], int numCat, char** knCats){
 	
 	//stores 0 if equal and 1 if not
 	int e = 0;
