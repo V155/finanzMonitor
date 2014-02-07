@@ -64,7 +64,7 @@ void drawSpecialCharacter(char specialCharacter)
 	}
 }
 
-void nAddEntry()
+void nAddEntry(int entriesIndex, struct entry* entries)
 {
 	char category[8];
 	char desc[16];
@@ -95,7 +95,7 @@ void nAddEntry()
 	c = wgetch(my_win);
 	switch(c)
 	{
-		case 10: createEntry(category, desc, price, date); break;
+		case 10: createEntry(entriesIndex, entries, category, desc, price, date); break;
 		default: break;
 	}
 
@@ -310,7 +310,7 @@ void ncursesOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, st
 	drawTableSeperatorLine('v');
 	printw("\n");
 	
-	calcSums();
+	calcSums(entriesIndex, entries, numCat, sums, knCats);
 	
 	sum1 = 0;
 	

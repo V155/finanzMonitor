@@ -5,39 +5,18 @@
 #define ROWLENGTH 46
 
 
-//an array with length 100 to store the entries for at least a month
-struct entry entries[100];
-//an array with length 50 to store the fix incomes
-struct fixcost incomes[50];
-//an array with length 50 to store the fix costs
-struct fixcost bills[50];
-//the actual index while accessing the entries array
-int entriesIndex = 0;
-//the actual index while accessing the incomes array
-int incomesIndex = 0;
-//the actual index while accessing the bills array
-int billsIndex = 0;
-//int containing the sum of the entries with category==KAT1
-int sum1 = 0;
-//stores the sums of the categories
-int sums[16];
-//stores the names of the categories
-char knCats[16][8];
-//stores the number of found categories
-int numCat = 0;
 
-
-void createEntry(char category[8], char desc[16], int price, int date)
+void createEntry(int entriesIndex, struct entry* entries, char category[8], char desc[16], int price, int date)
 {
 	strcpy(entries[entriesIndex].category, category);
 	strcpy(entries[entriesIndex].desc, desc);
 	entries[entriesIndex].price = price;
 	entries[entriesIndex].date = date;
 	entriesIndex++;
-	writeOut();
+	writeOut(entriesIndex, entries);
 }
 //reads the data from the save.csv
-int readIn(void)
+int readIn(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries)
 {
 	//pointer to the savefile
 	FILE *savefile;
@@ -137,7 +116,7 @@ int readIn(void)
 	return 0;
 }
 
-int writeOut(void)
+int writeOut(int entriesIndex, struct entry* entries)
 {
 	int i=0;
 	//pointer to the savefile
@@ -168,7 +147,7 @@ int writeOut(void)
 	
 }
 //calculates the Sum of expenses for each category
-int calcSums(void)
+int calcSums(int entriesIndex, struct entry* entries, int numCat, int* sums, char* knCats)
 {
 	//first clear sums array
 	int z = numCat;
@@ -181,7 +160,7 @@ int calcSums(void)
 	int i = 0;
 	for(i=0; i < entriesIndex; i++){
 		//returns index of category in knCats array if known. else -1
-		eq = checkKnown(entries[i].category);
+		eq = checkKnown(entries[i].category, numCat, knCats);
 		
 		if(eq == -1){
 			//append the category to the known categories array
@@ -205,7 +184,7 @@ int calcSums(void)
 	return 0;
 }
 
-int checkKnown(char cat[8]){
+int checkKnown(char cat[8], int numCat, char* knCats){
 	
 	//stores 0 if equal and 1 if not
 	int e = 0;

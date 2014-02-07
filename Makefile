@@ -1,14 +1,29 @@
-CFLAGS=-Wall
-LDFLAGS=-lncursesw
+CFLAGS = -std=c99 -Wall ${CPPFLAGS}
+#-Wextra -Werror -pedantic ${CPPFLAGS} 
+LDFLAGS = -lncursesw
 
-finanzMonitor : dataFunctions.o uiFunctions.o
-	${CC} ${CFLAGS} -o $@ $< ${LDFLAGS}
+SRC=$(wildcard *.c)
+OBJ=${SRC:.c=.o}
+DEPS=${SRC:.c=.dep}
 
-clean :
-	rm finanzMonitor
+TARGET=finanzMonitor
 
-dataFunctions.o :
-	${CC} ${CFLAGS} -c dataFunctions.c
+all: ${TARGET}
 
-uiFunctions.o :
-	${CC} ${CFLAGS} -c uiFunctions.c ${LDFLAGS}
+%.dep: %.c
+	$(CC) -MM $< -o $@
+
+-include $(OBJ:%.o=%.dep)
+
+${TARGET}: ${OBJ}
+	${CC} -o $@ $^ ${LDFLAGS}
+
+%.o: %.c %.dep
+	${CC} -c ${CFLAGS} $<
+
+clean: 
+	${RM} ${OBJ}
+	${RM} ${DEPS}
+
+.PHONY: clean
+
