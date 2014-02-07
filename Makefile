@@ -1,4 +1,8 @@
-finanzMonitor	:	main.o
+CFLAGS=-Wall
+LDFLAGS=-lncursesw
 
-main.o	:	main.c
-		cc -Wall main.c -l ncurses
+finanzMonitor : 
+	${CC} ${CFLAGS} -o $@ $< ${LDFLAGS}
+
+clean :
+	rm finanzMonitor
