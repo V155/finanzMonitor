@@ -1,6 +1,10 @@
 #include<ncurses.h>
+#include<string.h>
 #include "uiFunctions.h"
 #include "dataFunctions.h"
+
+//char array that stores the userinput
+char buf[16];
 
 //This function draws a horizontal line
 void drawLine(int length)
@@ -118,7 +122,7 @@ void destroy_win(WINDOW *local_win)
 	delwin(local_win);
 }
 
-int input(void)
+int input(int entriesIndex, struct entry* entries)
 {
 	char category[8];
 	char desc[16];
@@ -155,7 +159,7 @@ int input(void)
 	
 }
 
-void smallOutput(void)
+void smallOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int numCat, char* knCats, int* sums, int sum1)
 {
 	//just an int to iterate over the array of structs
 	int i = 0;
@@ -204,7 +208,7 @@ void smallOutput(void)
 
 }
 
-int output(void)
+int output(int entriesIndex, struct entry* entries)
 {
 	//just an int to iterate over the array of structs
 	int i = 0;
@@ -223,8 +227,8 @@ int output(void)
 	return 0;
 }
 
-void ncursesOutput(void){
-
+void ncursesOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int sum1, int numCat, char* knCats, int* sums)
+{
 	//start ncurses mode
 	//initscr();
 	move(0,0);

@@ -8,7 +8,6 @@
 int main(void)
 {
 	readIn();
-	//smallOutput();
 	initscr();
 	int dump = 0;
 	int toggle = 1;
@@ -31,28 +30,8 @@ int main(void)
 				toggle = 0; break;
 		}
 	}
-	//nAddEntry();
-	//ncursesOutput();
-	//calcSums();
-	
 	writeOut();
-	
 	endwin();
-
 	if(dump) smallOutput();
-
 	return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
