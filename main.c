@@ -113,11 +113,11 @@ int input(void)
 	// just the whole input sequence here
 	printf("Please enter Category : ");
 	fgets(buf, 7, stdin);
-	sscanf(buf, "%s", &category);
+	sscanf(buf, "%7s", category);
 	memset(buf,'+',16);
 	printf("Plese enter description : ");
 	fgets(buf, 15, stdin);
-	sscanf(buf, "%s", &desc);
+	sscanf(buf, "%15s", desc);
 	memset(buf, '\0',16);
 	printf("Please enter price : ");
 	fgets(buf, 8, stdin);
@@ -301,11 +301,8 @@ void ncursesOutput(void){
 	}
 
 	int y;
-	int x;
-	y = 0;
-	x = 0;
+	y = getcury(stdscr);
 
-	getyx(stdscr, y, x);
 
 	mvprintw(y-numCat, 30, "Overall Sum: %d\n", sum1);
 
