@@ -227,7 +227,7 @@ int output(int entriesIndex, struct entry* entries)
 	return 0;
 }
 
-void ncursesOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int sum1, int numCat, char** knCats, int* sums)
+void ncursesOutput(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries, int sum1, int numCat, char ** knCats, int* sums)
 {
 	//start ncurses mode
 	//initscr();

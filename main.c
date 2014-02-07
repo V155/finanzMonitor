@@ -55,6 +55,6 @@ int main(void)
 	}
 	writeOut(entriesIndex, entries);
 	endwin();
-	if(dump) smallOutput(incomesIndex, incomes, billsIndex, bills, entriesIndex, entries, sum1, numCat, knCats, sums);
+	if(dump) smallOutput(incomesIndex, incomes, billsIndex, bills, entriesIndex, entries,  numCat, knCats, sums, sum1);
 	return EXIT_SUCCESS;
 }

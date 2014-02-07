@@ -1,5 +1,4 @@
-CFLAGS = -std=c99 -Wall ${CPPFLAGS}
-#-Wextra -Werror -pedantic ${CPPFLAGS} 
+CFLAGS = -std=c99 -Wall -Wextra -Werror -pedantic ${CPPFLAGS} 
 LDFLAGS = -lncursesw
 
 SRC=$(wildcard *.c)
