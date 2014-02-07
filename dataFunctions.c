@@ -147,7 +147,7 @@ int writeOut(int entriesIndex, struct entry* entries)
 	
 }
 //calculates the Sum of expenses for each category
-int calcSums(int entriesIndex, struct entry* entries, int numCat, int* sums, char** knCats)
+int calcSums(int entriesIndex, struct entry* entries, int numCat, int* sums, char (*knCats)[8])
 {
 	//first clear sums array
 	int z = numCat;
@@ -184,7 +184,7 @@ int calcSums(int entriesIndex, struct entry* entries, int numCat, int* sums, cha
 	return 0;
 }
 
-int checkKnown(char cat[8], int numCat, char** knCats){
+int checkKnown(char cat[8], int numCat, char (*knCats)[8]){
 	
 	//stores 0 if equal and 1 if not
 	int e = 0;
