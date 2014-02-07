@@ -64,7 +64,7 @@ void drawSpecialCharacter(char specialCharacter)
 	}
 }
 
-void nAddEntry(int entriesIndex, struct entry* entries)
+void nAddEntry(int* entI, struct entry* entries)
 {
 	char category[8];
 	char desc[16];
@@ -95,7 +95,7 @@ void nAddEntry(int entriesIndex, struct entry* entries)
 	c = wgetch(my_win);
 	switch(c)
 	{
-		case 10: createEntry(entriesIndex, entries, category, desc, price, date); break;
+		case 10: createEntry(entI, entries, category, desc, price, date); break;
 		default: break;
 	}
 

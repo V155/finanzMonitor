@@ -30,7 +30,7 @@ int numCat = 0;
 
 int main(void)
 {
-	readIn(incomesIndex, incomes, billsIndex, bills, entriesIndex, entries);
+	readIn(&incomesIndex, incomes, &billsIndex, bills, &entriesIndex, entries);
 	initscr();
 	int dump = 0;
 	int toggle = 1;
@@ -45,7 +45,7 @@ int main(void)
 				toggle = 0; break;
 			
 			case 'a':
-				nAddEntry(); break;
+				nAddEntry(&entriesIndex, entries); break;
 			
 			case 'd':
 				dump = 1; break;

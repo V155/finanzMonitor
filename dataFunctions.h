@@ -22,8 +22,8 @@ struct fixcost
 };
 
 
-void createEntry(int entriesIndex, struct entry* entries, char category[8], char desc[16], int price, int date);
-int readIn(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries);
+void createEntry(int* entI, struct entry* entries, char category[8], char desc[16], int price, int date);
+int readIn(int* incI, struct fixcost* incomes, int* bilI, struct fixcost* bills, int* entI, struct entry* entries);
 int writeOut(int entriesIndex, struct entry* entries);
 int calcSums(int entriesIndex, struct entry* entries, int numCat, int* sums, char (*knCats)[8]);
 int checkKnown(char cat[8], int numCat, char (*knCats)[8]);

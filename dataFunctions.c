@@ -6,17 +6,17 @@
 
 
 
-void createEntry(int entriesIndex, struct entry* entries, char category[8], char desc[16], int price, int date)
+void createEntry(int* entI, struct entry* entries, char category[8], char desc[16], int price, int date)
 {
-	strcpy(entries[entriesIndex].category, category);
-	strcpy(entries[entriesIndex].desc, desc);
-	entries[entriesIndex].price = price;
-	entries[entriesIndex].date = date;
-	entriesIndex++;
-	writeOut(entriesIndex, entries);
+	strcpy(entries[*entI].category, category);
+	strcpy(entries[*entI].desc, desc);
+	entries[*entI].price = price;
+	entries[*entI].date = date;
+	*entI += 1;
+	writeOut(*entI, entries);
 }
 //reads the data from the save.csv
-int readIn(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fixcost* bills, int entriesIndex, struct entry* entries)
+int readIn(int* incI, struct fixcost* incomes, int* bilI, struct fixcost* bills, int* entI, struct entry* entries)
 {
 	//pointer to the savefile
 	FILE *savefile;
@@ -42,12 +42,12 @@ int readIn(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fix
 			ptr = strtok(puffer, ",");
 			
 			if(ptr != NULL)
-				strcpy(incomes[incomesIndex].desc, ptr);
+				strcpy(incomes[*incI].desc, ptr);
 			ptr = strtok(NULL, ",");
 			if(ptr != NULL)
-				incomes[incomesIndex].price = atoi(ptr);
+				incomes[*incI].price = atoi(ptr);
 			
-			incomesIndex ++;
+			*incI += 1;
 			
 		}
 	}
@@ -65,12 +65,12 @@ int readIn(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fix
 			ptr = strtok(puffer, ",");
 			
 			if(ptr != NULL)
-				strcpy(bills[billsIndex].desc, ptr);
+				strcpy(bills[*bilI].desc, ptr);
 			ptr = strtok(NULL, ",");
 			if(ptr != NULL)
-				bills[billsIndex].price = atoi(ptr);
+				bills[*bilI].price = atoi(ptr);
 			
-			billsIndex ++;
+			*bilI += 1;
 			
 		}
 	}
@@ -95,18 +95,18 @@ int readIn(int incomesIndex, struct fixcost* incomes, int billsIndex, struct fix
 				ptr = strtok(puffer, ",");
 				// check if there was a field
 				if (ptr != NULL)
-					strcpy(entries[entriesIndex].category , ptr);//write the content of the read field into the struct
+					strcpy(entries[*entI].category , ptr);//write the content of the read field into the struct
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					strcpy(entries[entriesIndex].desc, ptr);
+					strcpy(entries[*entI].desc, ptr);
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					entries[entriesIndex].price = atoi(ptr);
+					entries[*entI].price = atoi(ptr);
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					entries[entriesIndex].date = atoi(ptr);
+					entries[*entI].date = atoi(ptr);
 				
-				entriesIndex ++;
+				*entI += 1;
 			}
 		}
 	}
