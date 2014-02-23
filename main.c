@@ -32,7 +32,7 @@ struct month month;
 int main(void)
 {
 //	readIn(&incomesIndex, incomes, &billsIndex, bills, &entriesIndex, entries);
-	readIn(month);
+	readIn(&month);
 	initscr();
 	int dump = 0;
 	int toggle = 1;

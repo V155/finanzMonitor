@@ -118,7 +118,7 @@ int readIn(int* incI, struct fixcost* incomes, int* bilI, struct fixcost* bills,
 }
 */
 //reads the data from the save.csv
-int readIn(struct month month)
+int readIn(struct month* month)
 {
 	//pointer to the savefile
 	FILE *savefile;
@@ -144,12 +144,12 @@ int readIn(struct month month)
 			ptr = strtok(puffer, ",");
 			
 			if(ptr != NULL)
-				strcpy(month.incomes[month.incomesIndex].desc, ptr);
+				strcpy(*month.incomes[*month.incomesIndex].desc, ptr);
 			ptr = strtok(NULL, ",");
 			if(ptr != NULL)
-				month.incomes[month.incomesIndex].price = atoi(ptr);
+				*month.incomes[*month.incomesIndex].price = atoi(ptr);
 			
-			month.incomesIndex += 1;
+			*month.incomesIndex += 1;
 			
 		}
 	}
@@ -167,12 +167,12 @@ int readIn(struct month month)
 			ptr = strtok(puffer, ",");
 			
 			if(ptr != NULL)
-				strcpy(month.bills[month.billsIndex].desc, ptr);
+				strcpy(*month.bills[*month.billsIndex].desc, ptr);
 			ptr = strtok(NULL, ",");
 			if(ptr != NULL)
-				month.bills[month.billsIndex].price = atoi(ptr);
+				*month.bills[*month.billsIndex].price = atoi(ptr);
 			
-			month.billsIndex += 1;
+			*month.billsIndex += 1;
 			
 		}
 	}
@@ -197,18 +197,18 @@ int readIn(struct month month)
 				ptr = strtok(puffer, ",");
 				// check if there was a field
 				if (ptr != NULL)
-					strcpy(month.entries[month.entriesIndex].category , ptr);//write the content of the read field into the struct
+					strcpy(*month.entries[*month.entriesIndex].category , ptr);//write the content of the read field into the struct
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					strcpy(month.entries[month.entriesIndex].desc, ptr);
+					strcpy(*month.entries[*month.entriesIndex].desc, ptr);
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					month.entries[month.entriesIndex].price = atoi(ptr);
+					*month.entries[*month.entriesIndex].price = atoi(ptr);
 				ptr = strtok(NULL, ",");
 				if (ptr != NULL)
-					month.entries[month.entriesIndex].date = atoi(ptr);
+					*month.entries[*month.entriesIndex].date = atoi(ptr);
 				
-				month.entriesIndex += 1;
+				*month.entriesIndex += 1;
 			}
 		}
 	}
