@@ -15,6 +15,7 @@ void createEntry(int* entI, struct entry* entries, char category[8], char desc[1
 	*entI += 1;
 	writeOut(*entI, entries);
 }
+/**
 //reads the data from the save.csv
 int readIn(int* incI, struct fixcost* incomes, int* bilI, struct fixcost* bills, int* entI, struct entry* entries)
 {
@@ -107,6 +108,107 @@ int readIn(int* incI, struct fixcost* incomes, int* bilI, struct fixcost* bills,
 					entries[*entI].date = atoi(ptr);
 				
 				*entI += 1;
+			}
+		}
+	}
+	
+	fclose (savefile);
+	
+	return 0;
+}
+*/
+//reads the data from the save.csv
+int readIn(struct month month)
+{
+	//pointer to the savefile
+	FILE *savefile;
+	FILE *incomesfile;
+	FILE *billsfile;
+	//char array that contains the read data
+	char puffer[ROWLENGTH];
+	//the name of the savefile
+	char name[] = {"save.csv"};
+	char name2[] = {"incomes.csv"};
+	char name3[] = {"bills.csv"};
+	
+	//incomes file is opened read-only
+	incomesfile = fopen(name2, "r");
+	if(incomesfile == NULL)
+	{
+		printf("No incomes.csv file found skipping");
+	} else
+	{
+		char *ptr;
+		while ( fgets(puffer, ROWLENGTH, incomesfile) != NULL)
+		{
+			ptr = strtok(puffer, ",");
+			
+			if(ptr != NULL)
+				strcpy(month.incomes[month.incomesIndex].desc, ptr);
+			ptr = strtok(NULL, ",");
+			if(ptr != NULL)
+				month.incomes[month.incomesIndex].price = atoi(ptr);
+			
+			month.incomesIndex += 1;
+			
+		}
+	}
+	fclose(incomesfile);
+	//bills file is opened read-only
+	billsfile = fopen(name3, "r");
+	if(billsfile == NULL)
+	{
+		printf("No bills.csv file found skipping");
+	} else
+	{
+		char *ptr;
+		while ( fgets(puffer, ROWLENGTH, billsfile) != NULL)
+		{
+			ptr = strtok(puffer, ",");
+			
+			if(ptr != NULL)
+				strcpy(month.bills[month.billsIndex].desc, ptr);
+			ptr = strtok(NULL, ",");
+			if(ptr != NULL)
+				month.bills[month.billsIndex].price = atoi(ptr);
+			
+			month.billsIndex += 1;
+			
+		}
+	}
+	fclose(billsfile);
+	//savefile is opened read-only
+	savefile = fopen (name, "r");
+	if (savefile == NULL){
+		//checks if file can be opened
+		perror ("Error opening file");
+		return 1;
+	}
+	else {
+		//pointer to store the fields of the csv in
+		char *ptr;
+		if ( fgets (puffer, ROWLENGTH , savefile) != NULL)
+		{
+			//read all lines of file
+			while ( fgets (puffer , ROWLENGTH , savefile) != NULL )
+			{
+				//expected file format: category,shortdescription,priceInCent,date
+				//read in the first field
+				ptr = strtok(puffer, ",");
+				// check if there was a field
+				if (ptr != NULL)
+					strcpy(month.entries[month.entriesIndex].category , ptr);//write the content of the read field into the struct
+				ptr = strtok(NULL, ",");
+				if (ptr != NULL)
+					strcpy(month.entries[month.entriesIndex].desc, ptr);
+				ptr = strtok(NULL, ",");
+				if (ptr != NULL)
+					month.entries[month.entriesIndex].price = atoi(ptr);
+				ptr = strtok(NULL, ",");
+				if (ptr != NULL)
+					month.entries[month.entriesIndex].date = atoi(ptr);
+				
+				month.entriesIndex += 1;
 			}
 		}
 	}

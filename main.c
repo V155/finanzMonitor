@@ -4,7 +4,7 @@
 #include <ncurses.h>
 #include "uiFunctions.h"
 #include "dataFunctions.h"
-
+/**
 //an array with length 100 to store the entries for at least a month
 struct entry entries[100];
 //an array with length 50 to store the fix incomes
@@ -25,18 +25,20 @@ int sums[16];
 char knCats[16][8];
 //stores the number of found categories
 int numCat = 0;
-
+*/
+struct month month;
 
 
 int main(void)
 {
-	readIn(&incomesIndex, incomes, &billsIndex, bills, &entriesIndex, entries);
+//	readIn(&incomesIndex, incomes, &billsIndex, bills, &entriesIndex, entries);
+	readIn(month);
 	initscr();
 	int dump = 0;
 	int toggle = 1;
 	while(toggle)
 	{
-		ncursesOutput(incomesIndex, incomes, billsIndex, bills, entriesIndex, entries, sum1, numCat, knCats, sums);
+		ncursesOutput(month.incomesIndex, month.incomes, month.billsIndex, month.bills, month.entriesIndex, month.entries, month.sum1, month.numCat, month.knCats, month.sums);
 		char input = getch();
 		
 		switch(input)
@@ -45,7 +47,7 @@ int main(void)
 				toggle = 0; break;
 			
 			case 'a':
-				nAddEntry(&entriesIndex, entries); break;
+				nAddEntry(&month.entriesIndex, month.entries); break;
 			
 			case 'd':
 				dump = 1; break;
@@ -53,8 +55,8 @@ int main(void)
 				toggle = 0; break;
 		}
 	}
-	writeOut(entriesIndex, entries);
+	writeOut(month.entriesIndex, month.entries);
 	endwin();
-	if(dump) smallOutput(incomesIndex, incomes, billsIndex, bills, entriesIndex, entries,  numCat, knCats, sums, sum1);
+	if(dump) smallOutput(month.incomesIndex, month.incomes, month.billsIndex, month.bills, month.entriesIndex, month.entries,  month.numCat, month.knCats, month.sums, month.sum1);
 	return EXIT_SUCCESS;
 }
