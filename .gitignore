@@ -23,3 +23,6 @@
 *.csv
 *.orig
 *.xoj
+
+#emacs autosave files
+*~
