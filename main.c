@@ -38,6 +38,7 @@ int main(void)
 	int toggle = 1;
 	while(toggle)
 	{
+		calcSums(month.entriesIndex, month.entries, month.numCat, month.sums, month.knCats);
 		ncursesOutput(month.incomesIndex, month.incomes, month.billsIndex, month.bills, month.entriesIndex, month.entries, month.sum1, month.numCat, month.knCats, month.sums);
 		char input = getch();
 		
